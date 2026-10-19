@@ -1,1 +1,10 @@
 datasets/
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+plant_detection_project/
+.virtual_documents/
+hasil_kaggle.zip
+runs/
+weights/
+yolo26n.pt
