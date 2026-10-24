@@ -7,6 +7,5 @@ plant_detection_project/roundtrip_labels
 plant_detection_project/yolo_source/
 .virtual_documents/
 hasil_kaggle.zip
-runs/
 weights/
 yolo26n.pt
