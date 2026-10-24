@@ -2,7 +2,9 @@ datasets/
 .venv/
 __pycache__/
 .ipynb_checkpoints/
-plant_detection_project/
+plant_detection_project/dataset_v1/
+plant_detection_project/roundtrip_labels
+plant_detection_project/yolo_source/
 .virtual_documents/
 hasil_kaggle.zip
 runs/

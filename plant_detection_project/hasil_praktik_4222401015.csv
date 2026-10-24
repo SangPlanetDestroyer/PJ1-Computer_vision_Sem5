@@ -1,0 +1,4 @@
+experiment,change,pretrained,imgsz,mAP50,mAP50-95,precision,recall,inference_ms,train_minutes,best_weights
+E1_pretrained,-,True,640,0.706,0.3751,0.7475,0.7137,9.96,4.36,/kaggle/working/plant_detection_project/runs/E1_pretrained/weights/best.pt
+E2_scratch,-,False,640,0.3283,0.1353,0.3541,0.4036,3.57,3.94,/kaggle/working/plant_detection_project/runs/E2_scratch/weights/best.pt
+E3_tuning,imgsz=896,True,896,0.7471,0.4112,0.8058,0.7577,11.18,4.34,/kaggle/working/plant_detection_project/runs/E3_tuning/weights/best.pt

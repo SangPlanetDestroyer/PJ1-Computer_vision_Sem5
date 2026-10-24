@@ -1,8 +1,8 @@
-# PJ1 - Deteksi Tanaman dari UAV
+# PJ1 - Deteksi dan Penghitungan Tanaman dari UAV
 
 ## Ringkasan
 
-Notebook ini menyiapkan dataset Plant Detection and Counting dari format Supervisely ke format YOLO, memeriksa anotasi, membagi data berdasarkan sesi penerbangan, lalu menjalankan eksperimen E1, E2, dan E3. Notebook dirancang untuk Kaggle Notebook dengan accelerator GPU.
+Notebook [PJ1_Plant_Detection_Kaggle.ipynb](PJ1_Plant_Detection_Kaggle.ipynb) menyiapkan dataset Plant Detection and Counting dari format Supervisely ke YOLO, memeriksa anotasi, membuat split berdasarkan sesi penerbangan, lalu menjalankan eksperimen E1, E2, dan E3 di Kaggle dengan GPU.
 
 ## Kesesuaian proyek
 
@@ -25,9 +25,9 @@ Karena tidak ada split bawaan, notebook membagi data per sesi penerbangan dan me
 1. Buat Kaggle Notebook dan tambahkan dataset Plant Detection and Counting lewat **Add Input**.
 2. Pilih accelerator **GPU T4 x2**. Training memakai kedua GPU jika tersedia; validation dan test memakai GPU pertama. Aktifkan Internet bila bobot pretrained `yolo26n.pt` perlu diunduh; alternatifnya, tambahkan file bobot sebagai input Kaggle.
 3. Buka [notebook PJ1](PJ1_Plant_Detection_Kaggle.ipynb), lalu jalankan sel berurutan dari atas. Sel awal mencari dataset otomatis dari `meta.json`.
-4. Hasil konversi, split, grafik, bobot, TXT, dan CSV disimpan di `/kaggle/working/plant_detection_project/`. Unduh folder itu dari bagian Output setelah notebook selesai.
+4. Hasil konversi, split, grafik, bobot, TXT, dan CSV disimpan di `/kaggle/working/plant_detection_project/`. Sel terakhir membuat `hasil_kaggle.zip` dari folder proyek saja; unduh arsip itu dari bagian Output setelah notebook selesai.
 
-Notebook hanya memasang paket yang belum tersedia dan tidak mengganti PyTorch bawaan Kaggle. Jika GPU tidak terdeteksi, sel training berhenti dengan pesan agar accelerator GPU diaktifkan; training tidak dilanjutkan di CPU.
+Notebook hanya memasang paket yang belum tersedia dan tidak mengganti PyTorch bawaan Kaggle. Jika GPU tidak terdeteksi, sel training berhenti dengan pesan agar accelerator GPU diaktifkan; training tidak dilanjutkan ke CPU. ZIP tidak menyertakan file lain dari `/kaggle/working`, seperti checkpoint unduhan di luar folder proyek.
 
 ## Eksperimen
 
@@ -41,11 +41,11 @@ Ketiga eksperimen memakai split yang sama, 30 epoch, batch 8, seed 42, dan devic
 
 Training dijalankan pada dua Tesla T4. Split berdasarkan `site/year/flight_id` menghasilkan 134 gambar train, 27 validation, dan 28 test; tidak ada grup penerbangan yang dibagi ke lebih dari satu split.
 
-| Eksperimen | Pengaturan | mAP50 val | mAP50-95 val | Precision | Recall | Inferensi val | Waktu train |
-|---|---|---:|---:|---:|---:|---:|---:|
-| E1 pretrained | `imgsz=640` | 0.7060 | 0.3751 | 0.7475 | 0.7137 | 9.96 ms | 4.36 menit |
-| E2 scratch | `imgsz=640` | 0.3283 | 0.1353 | 0.3541 | 0.4036 | 3.57 ms | 3.94 menit |
-| E3 tuning | `imgsz=896` | **0.7471** | **0.4112** | **0.8058** | **0.7577** | 11.18 ms | 4.34 menit |
+| Eksperimen    | Pengaturan  |  mAP50 val | mAP50-95 val |  Precision |     Recall | Inferensi val | Waktu train |
+| ------------- | ----------- | ---------: | -----------: | ---------: | ---------: | ------------: | ----------: |
+| E1 pretrained | `imgsz=640` |     0.7060 |       0.3751 |     0.7475 |     0.7137 |       9.96 ms |  4.36 menit |
+| E2 scratch    | `imgsz=640` |     0.3283 |       0.1353 |     0.3541 |     0.4036 |       3.57 ms |  3.94 menit |
+| E3 tuning     | `imgsz=896` | **0.7471** |   **0.4112** | **0.8058** | **0.7577** |      11.18 ms |  4.34 menit |
 
 Model yang dipilih dari validation adalah E3. Model ini diuji satu kali pada test dan mendapat mAP50 **0.9482**, mAP50-95 **0.5145**, precision **0.9153**, dan recall **0.9220**.
 
@@ -61,9 +61,9 @@ Kurva E3 menunjukkan mAP validation masih meningkat hingga mendekati akhir train
 
 Artefak: [laporan TXT](plant_detection_project/hasil_praktik_4222401015.txt), [rekap CSV](plant_detection_project/hasil_praktik_4222401015.csv), [kurva E1](plant_detection_project/runs/E1_pretrained/results.png), [kurva E3](plant_detection_project/runs/E3_tuning/results.png), dan [confusion matrix E3](plant_detection_project/runs/E3_tuning/confusion_matrix.png).
 
-## Bagian notebook
+## Alur Notebook
 
-Setiap program Python memiliki pengantar Markdown sendiri. Alurnya: konversi Supervisely ke YOLO, pemeriksaan anotasi (Program 01), konversi YOLO ke COCO dan kembali (Program 02/03), split per sesi (Program 05), lalu training dan evaluasi (Program 06). Program pengambil subset COCO dan penyiap banana lama tidak dipakai dalam alur baru.
+Setiap program Python memiliki pengantar Markdown sendiri. Alur yang digunakan: konversi Supervisely ke YOLO, pemeriksaan anotasi (Program 01), konversi YOLO ke COCO dan kembali (Program 02/03), split per sesi (Program 05), lalu training dan evaluasi (Program 06). Program pengambil subset COCO dan penyiap banana lama tidak dipakai dalam alur ini; data banana mentah tetap disimpan.
 
 ## Referensi
 

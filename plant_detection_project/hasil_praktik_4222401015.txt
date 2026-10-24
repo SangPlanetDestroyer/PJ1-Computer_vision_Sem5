@@ -1,0 +1,32 @@
+PJ1 | RINGKASAN HASIL EKSPERIMEN
+==================================
+NIM / Nama : 4222401015 / Abdul-Hamid
+Tanggal   : 2026-10-19 05:57:31
+Dataset   : plant-detection-and-counting-DatasetNinja
+
+KONFIGURASI
+GPU training : Tesla T4, Tesla T4
+GPU evaluasi : Tesla T4
+Split        : grup site/year/flight_id, seed=42
+Training     : YOLO26n, 30 epoch, batch=8, imgsz=640 (E3: 896)
+
+METRIK VALIDATION
+experiment     imgsz  mAP50  mAP50-95  precision  recall  inference_ms  train_minutes
+E1_pretrained    640  0.7060    0.3751     0.7475  0.7137          9.96           4.36
+E2_scratch       640  0.3283    0.1353     0.3541  0.4036          3.57           3.94
+E3_tuning        896  0.7471    0.4112     0.8058  0.7577         11.18           4.34
+
+HASIL TEST (dijalankan satu kali)
+Model terpilih : E3_tuning
+mAP50          : 0.9482
+mAP50-95       : 0.5145
+Precision      : 0.9153
+Recall         : 0.9220
+Inferensi      : 100.56 ms/gambar
+Catatan: waktu inferensi test bukan benchmark latensi/FPS perangkat.
+
+ARTEFAK
+CSV metrik : hasil_praktik_4222401015.csv
+Bobot      : runs/E3_tuning/weights/best.pt
+Grafik E1  : runs/E1_pretrained/results.png
+Grafik E3  : runs/E3_tuning/results.png
